@@ -17,3 +17,24 @@ export async function saveUserData(userId, data) {
     throw error;
   }
 }
+
+export async function getCurrentUserAPI(userId) {
+  try {
+    const response = await fetch(`${API_URL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch current user");
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    throw error;
+  }
+}

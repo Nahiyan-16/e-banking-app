@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { signUp } from '@aws-amplify/auth';
+import { signUp, fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
 import { useNavigate } from 'react-router-dom';
+import { saveUserData } from './api'; 
 
 function SignUp() {
   const [userName, setUserName] = useState('');
@@ -17,8 +18,8 @@ function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await signUp({
-        username: email,
+      let userData = {
+        username: userName,
         password,
         options: {
           userAttributes: {
@@ -30,7 +31,9 @@ function SignUp() {
             birthdate, // format: YYYY-MM-DD
           },
         },
-      });
+      }
+      await signUp(userData);
+
       alert('Sign up successful! Now confirm your account.');
       navigate('/confirm', { state: { userName } });
     } catch (err) {
