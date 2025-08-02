@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
+import ConfirmSignUp from './ConfirmSignUp';
+import Home from './Home';
+import RequireAuth from './RequireAuth';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
+import ResendCode from './ResendCode';
+
+Amplify.configure(awsconfig);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/confirm" element={<ConfirmSignUp />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/resend-code" element={<ResendCode />} />
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        }
+      />
+    </Routes>
   );
 }
 

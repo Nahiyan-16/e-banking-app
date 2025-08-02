@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ebankingapp-dev-7ec64-authRole",
+      "UnauthRoleArn": "arn:aws:iam::874924261412:role/amplify-ebankingapp-dev-7ec64-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::874924261412:role/amplify-ebankingapp-dev-7ec64-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ebankingapp-dev-7ec64-deployment",
+      "UnauthRoleName": "amplify-ebankingapp-dev-7ec64-unauthRole",
+      "StackName": "amplify-ebankingapp-dev-7ec64",
+      "StackId": "arn:aws:cloudformation:us-east-1:874924261412:stack/amplify-ebankingapp-dev-7ec64/3f62fe90-6f04-11f0-9d90-0afff28b3031",
+      "AmplifyAppId": "d1gzbqkhz3kya5"
+    },
+    "categories": {
+      "auth": {
+        "ebankingappe9e94a9f": {}
+      }
+    }
+  }
+}
