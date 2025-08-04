@@ -10,6 +10,10 @@ export async function saveUserData(userId, data) {
       body: JSON.stringify({ userId, ...data })
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const result = await response.json();
     return result;
   } catch (error) {
