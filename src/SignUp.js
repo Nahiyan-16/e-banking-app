@@ -121,22 +121,22 @@ function SignUp() {
 
       console.log("User data to be saved:", user.username, user);
 
-      // await signUp({
-      //   username: user.username,
-      //   password,
-      //   options: {
-      //     userAttributes: {
-      //       email: user.email,
-      //       phone_number: user.phoneNumber,
-      //       given_name: user.firstName,
-      //       family_name: user.lastName,
-      //       address: `${user.address.street}, ${user.address.city}, ${user.address.state} ${user.address.postalCode}, ${user.address.country}`,
-      //       birthdate: user.birthDate,
-      //     },
-      //   },
-      // });
+      await signUp({
+        username: user.username,
+        password,
+        options: {
+          userAttributes: {
+            email: user.email,
+            phone_number: user.phoneNumber,
+            given_name: user.firstName,
+            family_name: user.lastName,
+            address: `${user.address.street}, ${user.address.city}, ${user.address.state} ${user.address.postalCode}, ${user.address.country}`,
+            birthdate: user.birthDate,
+          },
+        },
+      });
 
-      //await saveUserData(user.username, user);
+      await saveUserData("signup", user);
 
       alert("Sign up successful! Now confirm your account.");
       navigate("/confirm", { state: { user: user.username } });

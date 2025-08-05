@@ -1,13 +1,20 @@
 const API_URL = "https://hxj7ba5cg8.execute-api.us-east-1.amazonaws.com/prod/users";
 
-export async function saveUserData(userId, data) {
+/**
+ * Save or update user data in S3
+ * @param {"signup" | "login"} mode
+ * @param {Object} data - User data including at least `username` (and `id`, `email` for signup)
+ */
+export async function saveUserData(mode, data) {
   try {
+    const body = { mode, ...data };
+
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ userId, ...data })
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {
@@ -21,6 +28,7 @@ export async function saveUserData(userId, data) {
     throw error;
   }
 }
+
 
 export async function getCurrentUserAPI(userId) {
   try {

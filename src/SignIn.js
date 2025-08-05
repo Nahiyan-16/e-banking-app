@@ -14,6 +14,7 @@ import {
   InputAdornment
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { saveUserData } from './api';
 
 function SignIn() {
   const [userName, setUserName] = useState('');
@@ -30,6 +31,7 @@ function SignIn() {
 
     try {
       await signIn({ username: userName, password });
+      await saveUserData("login", { username: userName });
       navigate('/');
     } catch (err) {
       setError(err.message);
