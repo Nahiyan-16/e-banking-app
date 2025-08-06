@@ -11,7 +11,7 @@ const user = {
     city: "New York",
     state: "NY",
     postalCode: "10001",
-    country: "USA"
+    country: "USA",
   },
 
   // KYC / Identity verification
@@ -20,7 +20,7 @@ const user = {
     type: "driver_license", // or "passport", "state_id"
     number: "D1234567",
     issuedState: "NY",
-    expirationDate: "2029-01-01"
+    expirationDate: "2029-01-01",
   },
 
   // Bank accounts
@@ -41,7 +41,7 @@ const user = {
           currency: "USD",
           description: "Grocery Store",
           date: "2025-07-30T15:00:00Z",
-          status: "completed"
+          status: "completed",
         },
         {
           transactionId: "txn-002",
@@ -50,14 +50,14 @@ const user = {
           currency: "USD",
           description: "Paycheck",
           date: "2025-07-28T08:30:00Z",
-          status: "completed"
-        }
-      ]
-    }
+          status: "completed",
+        },
+      ],
+    },
   ],
 
   // Timestamps
   createdAt: "2025-07-01T14:00:00Z",
   lastLogin: "2025-08-01T12:34:56Z",
-  isActive: true
+  isActive: true,
 };
