@@ -1,0 +1,64 @@
+{
+  "mode": "signup",
+  "id": "f80d498d-e4fb-445d-98eb-9f5330f03d9f",
+  "username": "nahiyan20",
+  "email": "nahiyanahmed20@gmail.com",
+  "phoneNumber": "+13473795955",
+  "firstName": "Tahsin",
+  "lastName": "Ahmed",
+  "birthDate": "1999-06-08",
+  "address": {
+    "street": "165-23 65th Ave",
+    "city": "Fresh Meadows",
+    "state": "NY",
+    "postalCode": "11365",
+    "country": "United States"
+  },
+  "ssnLast4": "2113",
+  "governmentId": {
+    "type": "driver_license",
+    "number": "213123213213",
+    "issuedState": "NY",
+    "expirationDate": "2025-08-28"
+  },
+  "accounts": [
+    {
+      "accountId": "acct-52e70259-c99b-43cb-9eb5-8d1284905e6c",
+      "type": "checking",
+      "routingNumber": "021000021",
+      "accountNumber": "*****6773",
+      "balance": 2100,
+      "currency": "USD",
+      "createdAt": "2025-08-06T20:39:38.550Z",
+      "transactions": [
+        {
+          "accountId": "acct-52e70259-c99b-43cb-9eb5-8d1284905e6c",
+          "transactionId": "37b7f836-7fbf-4b51-ad29-106b0453b448",
+          "type": "deposit",
+          "amount": 2000,
+          "description": "Initial deposit",
+          "date": "2025-08-06T20:39:38.550Z",
+          "category": "initial"
+        },
+        {
+          "accountId": "acct-52e70259-c99b-43cb-9eb5-8d1284905e6c",
+          "transactionId": "424d7339-1f9f-4e1f-b94e-5b5d38cc9430",
+          "type": "send",
+          "amount": 100,
+          "description": "Sent to nahiyan16",
+          "date": "2025-08-06T20:51:13.937Z",
+          "category": "Transfer"
+        }
+      ],
+      "monthlyStats": {
+        "2025-08": {
+          "income": 2000,
+          "spend": 100
+        }
+      }
+    }
+  ],
+  "createdAt": "2025-08-06T20:39:38.550Z",
+  "lastLogin": "2025-08-06T20:52:27.852Z",
+  "isActive": true
+}

@@ -16,9 +16,9 @@ import {
   InputLabel,
   Alert,
   IconButton,
-  InputAdornment
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+  InputAdornment,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { saveUserData } from "./api.js";
 
 function SignUp() {
@@ -90,6 +90,8 @@ function SignUp() {
       return;
     }
 
+    const acctId = `acct-${uuidv4()}`;
+
     try {
       const user = {
         id: uuidv4(),
@@ -104,14 +106,30 @@ function SignUp() {
         governmentId: formData.governmentId,
         accounts: [
           {
-            accountId: `acct-${uuidv4()}`,
+            accountId: acctId,
             type: formData.account.type,
-            routingNumber: "021000021", // Use hard-coded routing number
+            routingNumber: "021000021",
             accountNumber: `*****${formData.account.accountNumber.slice(-4)}`,
             balance: parseFloat(formData.account.initialDeposit),
             currency: "USD",
             createdAt: new Date().toISOString(),
-            transactions: [],
+            transactions: [
+              {
+                accountId: acctId,
+                transactionId: uuidv4(),
+                type: "deposit",
+                amount: parseFloat(formData.account.initialDeposit),
+                description: "Initial deposit",
+                date: new Date().toISOString(),
+                category: "initial",
+              },
+            ],
+            monthlyStats: {
+              [new Date().toISOString().slice(0, 7)]: {
+                income: parseFloat(formData.account.initialDeposit),
+                spend: 0,
+              },
+            },
           },
         ],
         createdAt: new Date().toISOString(),
@@ -151,7 +169,7 @@ function SignUp() {
         <Typography variant="h4" component="h1" gutterBottom align="center">
           Create Account
         </Typography>
-        
+
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
             {error}
@@ -165,7 +183,7 @@ function SignUp() {
               <Typography variant="h6" gutterBottom>
                 Personal Information
               </Typography>
-              
+
               <TextField
                 fullWidth
                 required
@@ -174,7 +192,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "username")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -184,7 +202,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "email")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -194,7 +212,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "phoneNumber")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -203,7 +221,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "firstName")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -212,7 +230,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "lastName")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -225,12 +243,12 @@ function SignUp() {
                   shrink: true,
                 }}
               />
-              
+
               <TextField
                 fullWidth
                 required
                 label="Password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
@@ -252,7 +270,7 @@ function SignUp() {
                 fullWidth
                 required
                 label="Confirm Password"
-                type={showConfirmPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 margin="normal"
@@ -263,7 +281,11 @@ function SignUp() {
                         onClick={() => setShowConfirmPassword((prev) => !prev)}
                         edge="end"
                       >
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -276,7 +298,7 @@ function SignUp() {
               <Typography variant="h6" gutterBottom>
                 Address Information
               </Typography>
-              
+
               <TextField
                 fullWidth
                 required
@@ -285,7 +307,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "address.street")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -294,7 +316,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "address.city")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -303,7 +325,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "address.state")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -312,7 +334,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "address.postalCode")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -321,7 +343,7 @@ function SignUp() {
                 onChange={(e) => handleChange(e, "address.country")}
                 margin="normal"
               />
-              
+
               <TextField
                 fullWidth
                 required
@@ -339,7 +361,7 @@ function SignUp() {
             <Typography variant="h6" gutterBottom>
               ID Information
             </Typography>
-            
+
             <Grid container spacing={2}>
               <Grid item size="grow">
                 <FormControl fullWidth required margin="normal">
@@ -355,7 +377,7 @@ function SignUp() {
                   </Select>
                 </FormControl>
               </Grid>
-              
+
               <Grid item size="grow">
                 <TextField
                   fullWidth
@@ -366,7 +388,7 @@ function SignUp() {
                   margin="normal"
                 />
               </Grid>
-              
+
               <Grid item size="grow">
                 <TextField
                   fullWidth
@@ -377,7 +399,7 @@ function SignUp() {
                   margin="normal"
                 />
               </Grid>
-              
+
               <Grid item size="grow">
                 <TextField
                   fullWidth
@@ -385,7 +407,9 @@ function SignUp() {
                   label="ID Expiration Date"
                   type="date"
                   value={formData.governmentId.expirationDate}
-                  onChange={(e) => handleChange(e, "governmentId.expirationDate")}
+                  onChange={(e) =>
+                    handleChange(e, "governmentId.expirationDate")
+                  }
                   margin="normal"
                   InputLabelProps={{
                     shrink: true,
@@ -396,11 +420,11 @@ function SignUp() {
           </Box>
 
           {/* Bank Account Information */}
-          <Paper elevation={1} sx={{ p: 3, mt: 3, backgroundColor: '#f5f5f5' }}>
+          <Paper elevation={1} sx={{ p: 3, mt: 3, backgroundColor: "#f5f5f5" }}>
             <Typography variant="h6" gutterBottom>
               Initial Bank Account
             </Typography>
-            
+
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <FormControl fullWidth required margin="normal">
@@ -414,7 +438,7 @@ function SignUp() {
                     <MenuItem value="savings">Savings Account</MenuItem>
                   </Select>
                 </FormControl>
-                
+
                 <TextField
                   fullWidth
                   label="Routing Number"
@@ -425,7 +449,7 @@ function SignUp() {
                   }}
                   helperText="Fixed routing number for all accounts"
                 />
-                
+
                 <TextField
                   fullWidth
                   label="Account Number"
@@ -437,7 +461,7 @@ function SignUp() {
                   helperText="Auto-generated account number"
                 />
               </Grid>
-              
+
               <Grid item xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -446,7 +470,7 @@ function SignUp() {
                   type="number"
                   inputProps={{
                     min: 0,
-                    step: 0.01
+                    step: 0.01,
                   }}
                   value={formData.account.initialDeposit}
                   onChange={(e) => handleChange(e, "account.initialDeposit")}
@@ -457,7 +481,7 @@ function SignUp() {
             </Grid>
           </Paper>
 
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
             <Button
               type="submit"
               variant="contained"
