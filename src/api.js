@@ -1,7 +1,6 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
-const API_URL =
-  "https://hxj7ba5cg8.execute-api.us-east-1.amazonaws.com/prod/users";
+const API_URL = process.env.REACT_APP_API_URL;
 
 /**
  * Save or update user data in S3
@@ -9,6 +8,7 @@ const API_URL =
  * @param {Object} data - User data including at least `username` (and `id`, `email` for signup)
  */
 export async function saveUserData(mode, data) {
+  console.log("API_URL:", API_URL);
   try {
     const body = { mode, ...data };
 

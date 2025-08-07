@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "webpack --env.REACT_APP_API_BASE_URL=http://localhost:8000 --config webpack.config.dev.js"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +45,8 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1"
+  }
 }

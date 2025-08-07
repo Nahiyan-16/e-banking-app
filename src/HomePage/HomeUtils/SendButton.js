@@ -7,20 +7,21 @@ import {
   DialogActions,
   TextField,
   Stack,
+  Typography,
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { v4 as uuidv4 } from "uuid";
-import { fetchUserData, saveUserData } from "../../api";
+import { fetchUserData } from "../../api";
 import { recordTransaction } from "../../Utils/RecordTransaction";
 
 function SendButton({ user, setUser }) {
   const [open, setOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
-    setOpen(false);
+    setSuccessOpen(false);
     setRecipient("");
     setAmount("");
   };
@@ -47,7 +48,6 @@ function SendButton({ user, setUser }) {
       const receiverUser = { ...receiverUserData };
       const receiverAccount = receiverUser.accounts?.[0];
 
-      // Record both transactions (sender + receiver)
       await recordTransaction({
         username: senderUser.username,
         accountId: senderAccount.accountId,
@@ -66,7 +66,6 @@ function SendButton({ user, setUser }) {
         category: "Transfer",
       });
 
-      // OPTIONAL: Re-fetch updated sender user data from backend
       const updatedUser = await fetchUserData(senderUser.username);
       setUser(updatedUser);
       localStorage.setItem(
@@ -74,8 +73,8 @@ function SendButton({ user, setUser }) {
         JSON.stringify({ data: updatedUser, timestamp: Date.now() })
       );
 
-      alert("Transfer successful");
-      handleClose();
+      setOpen(false);
+      setSuccessOpen(true); // open success modal
     } catch (error) {
       console.error("Send failed:", error);
       alert("Send failed");
@@ -98,6 +97,7 @@ function SendButton({ user, setUser }) {
         Send
       </Button>
 
+      {/* Send Money Form Dialog */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Send Money</DialogTitle>
         <DialogContent>
@@ -121,6 +121,22 @@ function SendButton({ user, setUser }) {
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSend} variant="contained">
             Send
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Success Dialog */}
+      <Dialog open={successOpen} onClose={() => handleClose()}>
+        <DialogTitle>✅ Transfer Successful</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            You successfully sent <strong>${amount}</strong> to{" "}
+            <strong>{recipient}</strong>.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose()} variant="contained">
+            Close
           </Button>
         </DialogActions>
       </Dialog>

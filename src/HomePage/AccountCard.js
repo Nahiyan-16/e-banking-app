@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
   Typography,
   Card,
@@ -21,16 +21,16 @@ import SendButton from "./HomeUtils/SendButton";
 function AccountCard({
   balance,
   accountNumber,
-  balanceVisible,
-  toggleBalanceVisibility,
-  recentTransactions,
-  monthlyStats = {},
   user,
+  monthlyIncome: income,
+  monthlySpend: spend,
   setUser,
 }) {
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  const income = monthlyStats[currentMonth]?.income || 0;
-  const spend = monthlyStats[currentMonth]?.spend || 0;
+  const [balanceVisible, setBalanceVisible] = useState(true);
+
+  const toggleBalanceVisibility = () => {
+    setBalanceVisible((prev) => !prev);
+  };
 
   return (
     <Grid item xs={12} lg={3}>

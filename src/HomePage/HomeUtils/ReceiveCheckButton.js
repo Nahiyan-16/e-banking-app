@@ -10,6 +10,7 @@ import {
 import { GetApp } from "@mui/icons-material";
 import { useState } from "react";
 import { recordTransaction } from "../../Utils/RecordTransaction";
+import { fetchUserData } from "../../api";
 
 function ReceiveCheckButton({ user, setUser }) {
   const [open, setOpen] = useState(false);
@@ -27,44 +28,22 @@ function ReceiveCheckButton({ user, setUser }) {
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount) || parsedAmount <= 0 || !from) return;
 
-    const now = new Date().toISOString();
     const updatedUser = { ...user };
-    const account = updatedUser.accounts[0];
-
-    // Update balance
-    account.balance = Number(account.balance || 0) + parsedAmount;
-
-    // Add transaction
-    account.transactions.unshift({
-      id: crypto.randomUUID(),
-      type: "deposit",
-      amount: parsedAmount,
-      description: `Check from ${from}`,
-      date: now,
-    });
-
-    // Update monthly income
-    const month = new Date().toISOString().slice(0, 7); // e.g. "2025-08"
-    if (!account.monthlyStats) account.monthlyStats = {};
-    if (!account.monthlyStats[month])
-      account.monthlyStats[month] = { income: 0, spending: 0 };
-
-    account.monthlyStats[month].income += parsedAmount;
-
-    setUser(updatedUser);
-    localStorage.setItem(
-      "userData",
-      JSON.stringify({ data: updatedUser, timestamp: Date.now() })
-    );
 
     await recordTransaction({
       username: updatedUser.username,
-      accountId: updatedUser.accountId,
+      accountId: updatedUser.accounts?.[0].accountId,
       amount: parsedAmount,
       type: "deposit",
-      description: `Deposit from ${updatedUser.username}`,
+      description: `Deposit from ${from}`,
     });
 
+    const fetchedUser = await fetchUserData(updatedUser.username);
+    setUser(fetchedUser);
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({ data: fetchedUser, timestamp: Date.now() })
+    );
     handleClose();
   };
 
