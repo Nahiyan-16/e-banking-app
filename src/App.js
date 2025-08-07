@@ -2,14 +2,14 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Amplify } from "aws-amplify";
 import awsconfig from "./aws-exports";
-import SignUp from "./SignUp";
-import SignIn from "./SignIn";
-import ConfirmSignUp from "./ConfirmSignUp";
+import SignUp from "./Authentication/SignUp";
+import SignIn from "./Authentication/SignIn";
+import ConfirmSignUp from "./Authentication/ConfirmSignUp";
 import Home from "./HomePage/Home";
-import RequireAuth from "./RequireAuth";
-import ForgotPassword from "./ForgotPassword";
-import ResetPassword from "./ResetPassword";
-import ResendCode from "./ResendCode";
+import RequireAuth from "./Authentication/RequireAuth";
+import ForgotPassword from "./Authentication/ForgotPassword";
+import ResetPassword from "./Authentication/ResetPassword";
+import ResendCode from "./Authentication/ResendCode";
 
 Amplify.configure(awsconfig);
 

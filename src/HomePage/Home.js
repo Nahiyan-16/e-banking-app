@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { signOut, getCurrentUser } from "@aws-amplify/auth";
 import { useNavigate } from "react-router-dom";
-import { fetchUserData } from "../api";
+import { fetchUserData } from "../API/api";
 import QuickActions from "./QuickActions";
 import Transactions from "./Transactions";
 import AccountCard from "./AccountCard";
@@ -25,6 +25,7 @@ import {
   Settings,
   Logout,
 } from "@mui/icons-material";
+import logo from "../Images/logo.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -166,6 +167,17 @@ function Home() {
           mb: { xs: 2, md: 3 },
         }}
       >
+        <img
+          src={logo}
+          alt="Logo"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 10,
+            width: 80,
+            height: 80,
+          }}
+        />
         <Container maxWidth={isMobile ? "sm" : "lg"}>
           <Stack
             direction="row"

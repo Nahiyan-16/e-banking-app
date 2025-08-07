@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { saveUserData } from "../api";
+import { saveUserData } from "../API/api";
 
 export const recordTransaction = async ({
   username,

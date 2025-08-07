@@ -10,7 +10,7 @@ import {
 import { GetApp } from "@mui/icons-material";
 import { useState } from "react";
 import { recordTransaction } from "../../Utils/RecordTransaction";
-import { fetchUserData } from "../../api";
+import { fetchUserData } from "../../API/api";
 
 function ReceiveCheckButton({ user, setUser }) {
   const [open, setOpen] = useState(false);

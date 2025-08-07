@@ -19,7 +19,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { saveUserData } from "./api.js";
+import { saveUserData } from "../API/api.js";
 
 function SignUp() {
   // Generate account number on component mount

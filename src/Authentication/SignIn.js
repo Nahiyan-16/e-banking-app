@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { signIn } from '@aws-amplify/auth';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { signIn } from "@aws-amplify/auth";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -11,28 +11,29 @@ import {
   Alert,
   Link as MuiLink,
   IconButton,
-  InputAdornment
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { saveUserData } from './api';
+  InputAdornment,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { saveUserData } from "../API/api";
+import logo from "../Images/logo.png";
 
 function SignIn() {
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       await signIn({ username: userName, password });
       await saveUserData("login", { username: userName });
-      navigate('/');
+      navigate("/");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -45,17 +46,33 @@ function SignIn() {
       <Box
         sx={{
           marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <Paper elevation={3} sx={{ padding: 4, width: '100%' }}>
+        <Paper
+          elevation={3}
+          sx={{ padding: 4, width: "100%", position: "relative" }}
+        >
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: "absolute",
+              top: 16,
+              left: 16,
+              width: 80,
+              height: 80,
+            }}
+          />
+
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mt: 5,
             }}
           >
             <Typography component="h1" variant="h4" gutterBottom>
@@ -63,12 +80,16 @@ function SignIn() {
             </Typography>
 
             {error && (
-              <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
+              <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
                 {error}
               </Alert>
             )}
 
-            <Box component="form" onSubmit={handleSignIn} sx={{ mt: 1, width: '100%' }}>
+            <Box
+              component="form"
+              onSubmit={handleSignIn}
+              sx={{ mt: 1, width: "100%" }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -81,14 +102,13 @@ function SignIn() {
                 onChange={(e) => setUserName(e.target.value)}
                 disabled={loading}
               />
-              
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 name="password"
                 label="Password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -96,14 +116,17 @@ function SignIn() {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
+                      <IconButton
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
               />
-              
+
               <Button
                 type="submit"
                 fullWidth
@@ -111,12 +134,12 @@ function SignIn() {
                 sx={{ mt: 3, mb: 2, py: 1.5 }}
                 disabled={loading}
               >
-                {loading ? 'Signing In...' : 'Sign In'}
+                {loading ? "Signing In..." : "Sign In"}
               </Button>
-              
-              <Box sx={{ textAlign: 'center' }}>
+
+              <Box sx={{ textAlign: "center" }}>
                 <Typography variant="body2" color="text.secondary">
-                  Don't have an account?{' '}
+                  Don't have an account?{" "}
                   <MuiLink component={Link} to="/signup" variant="body2">
                     Sign Up
                   </MuiLink>

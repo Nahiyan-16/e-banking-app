@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { fetchUserData } from "../../api";
+import { fetchUserData } from "../../API/api";
 import { recordTransaction } from "../../Utils/RecordTransaction";
 
 function SendButton({ user, setUser }) {
