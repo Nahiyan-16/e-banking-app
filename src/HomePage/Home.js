@@ -142,7 +142,7 @@ function Home() {
     transactions = [],
     monthlyStats = {},
   } = primaryAccount;
-  const recentTransactions = transactions.reverse().slice(0, 5);
+  const recentTransactions = transactions.slice(-5).reverse();
 
   const currentMonth = new Date().toISOString().slice(0, 7);
   const income = monthlyStats[currentMonth]?.income || 0;
@@ -173,9 +173,9 @@ function Home() {
           style={{
             position: "absolute",
             top: 0,
-            left: 10,
-            width: 80,
-            height: 80,
+            left: "50%",
+            width: 60,
+            height: 60,
           }}
         />
         <Container maxWidth={isMobile ? "sm" : "lg"}>
@@ -321,8 +321,7 @@ function Home() {
           >
             <Transactions
               recentTransactions={recentTransactions}
-              isMobile={isMobile}
-              isTablet={isTablet}
+              allTransactions={transactions.reverse()}
             />
           </Grid>
         </Grid>
