@@ -1,70 +1,110 @@
-# Getting Started with Create React App
+# 🏦 e-banking-app — Mock Online Banking Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a full-stack mock online banking application built with **React**, **AWS Cognito**, **Lambda**, and **S3**. It features a **custom frontend authentication UI**, user KYC capture, and transaction management.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## ⚙️ Features
 
-### `npm start`
+- 🔐 **Custom Authentication Flow** (Signup, Sign-in, Sign-out using AWS Cognito)
+- 🗂️ **User Data Stored in S3** (`e-bank-user-data/users/[username].json`)
+- 💸 **Mock Transactions** (Send/Receive/Deposit)
+- 📈 **Monthly Stats Tracking**
+- 🧾 **Recent & Full Transaction Views**
+- ☁️ **AWS Lambda API Integration**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📦 Tech Stack
 
-### `npm test`
+| Frontend       | Backend           | Cloud                    |
+| -------------- | ----------------- | ------------------------ |
+| React (w/ MUI) | Node.js + Express | AWS Lambda + API Gateway |
+| AWS Cognito    |                   | AWS S3                   |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Clone the Repo
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/YOUR_USERNAME/e-banking-app.git
+cd e-banking-app
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Install Dependencies
 
-### `npm run eject`
+```bash
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 3. Setup Environment Variables
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Create `.env.development`:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```env
+REACT_APP_API_BASE_URL=http://localhost:5000
+REACT_APP_REGION=us-east-1
+REACT_APP_USER_POOL_ID=your_user_pool_id
+REACT_APP_CLIENT_ID=your_client_id
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To ignore them from Git:
 
-## Learn More
+```
+# .gitignore
+.env*
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 4. Run the Frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm start
+```
 
-### Code Splitting
+### 5. Backend (Node.js + AWS)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `/server.mjs` is deployed to **AWS Lambda**
+- Reads/writes from `e-bank-user-data/users/[username].json` in S3
+- Handles API routes for:
+  - `GET /user/:username`
+  - `POST /user`
+  - etc.
 
-### Analyzing the Bundle Size
+You can run it locally for testing:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+node server.mjs
+```
 
-### Making a Progressive Web App
+Or deploy to Lambda using the AWS CLI or Console.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 💡 Architecture Diagram
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+[ React App ]
+     |
+     v
+[ AWS API Gateway ] ---> [ Lambda (Node.js) ] ---> [ S3 (user JSON) ]
+     |
+     v
+[ AWS Cognito (Auth) ]
+```
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📝 To-Do / Future Features
 
-### `npm run build` fails to minify
+- Bank account verification UI
+- Real-time transaction syncing
+- Notifications/alerts
+- Admin dashboard
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## 🧠 Author
+
+**Nahiyan Ahmed**
