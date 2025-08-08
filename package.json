@@ -25,7 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "webpack --env.REACT_APP_API_BASE_URL=http://localhost:8000 --config webpack.config.dev.js"
+    "dev": "webpack --env.REACT_APP_API_BASE_URL=http://localhost:8000 --config webpack.config.dev.js",
+    "deploy": "npm run build && aws s3 sync build/ s3://e-bank-frontend --delete"
   },
   "eslintConfig": {
     "extends": [

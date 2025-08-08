@@ -16,6 +16,7 @@ export async function saveUserData(mode, data) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -42,6 +43,7 @@ export async function fetchUserData(userId) {
       headers: {
         "Content-Type": "application/json",
         Authorization: idToken,
+        "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
       },
     });
 
