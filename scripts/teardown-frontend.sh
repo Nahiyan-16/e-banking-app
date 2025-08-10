@@ -1,7 +1,9 @@
 #!/bin/bash
 
-STACK_NAME="e-bank-temp-site"
+#Set the Region
 REGION="us-east-1"
+
+STACK_NAME="e-bank-temp-site"
 
 # Get the S3 bucket name before deleting
 BUCKET_NAME=$(aws cloudformation describe-stacks \

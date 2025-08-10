@@ -1,110 +1,165 @@
-# 🏦 e-banking-app — Mock Online Banking Application
+# 🏦 e-Banking App — Mock Online Banking Application
 
-This is a full-stack mock online banking application built with **React**, **AWS Cognito**, **Lambda**, and **S3**. It features a **custom frontend authentication UI**, user KYC capture, and transaction management.
-
----
-
-## ⚙️ Features
-
-- 🔐 **Custom Authentication Flow** (Signup, Sign-in, Sign-out using AWS Cognito)
-- 🗂️ **User Data Stored in S3** (`e-bank-user-data/users/[username].json`)
-- 💸 **Mock Transactions** (Send/Receive/Deposit)
-- 📈 **Monthly Stats Tracking**
-- 🧾 **Recent & Full Transaction Views**
-- ☁️ **AWS Lambda API Integration**
+A full-stack mock online banking application built with **React**, **AWS Cognito**, **AWS Lambda**, and **AWS S3**. It features a custom frontend authentication UI, user KYC capture, and robust transaction management.
 
 ---
 
-## 📦 Tech Stack
+## ✨ Features
 
-| Frontend       | Backend           | Cloud                    |
-| -------------- | ----------------- | ------------------------ |
-| React (w/ MUI) | Node.js + Express | AWS Lambda + API Gateway |
-| AWS Cognito    |                   | AWS S3                   |
+- 🔐 **Custom Authentication Flow**: Secure signup, sign-in, and sign-out using AWS Cognito.
+- 🗂️ **User Data Storage**: Stores user data in AWS S3 (`e-bank-user-data/users/[username].json`).
+- 💸 **Mock Transactions**: Supports send, receive, and deposit functionalities.
+- 📈 **Monthly Stats Tracking**: Visualize monthly financial activity.
+- 🧾 **Transaction Views**: View recent and full transaction histories.
+- ☁️ **AWS Lambda API**: Seamless integration with serverless backend APIs.
+
+---
+
+## 🛠️ Tech Stack
+
+| Frontend               | Backend           | Cloud Services           |
+| ---------------------- | ----------------- | ------------------------ |
+| React (w/ Material-UI) | Node.js + Express | AWS Lambda + API Gateway |
+| AWS Amplify (Cognito)  |                   | AWS S3                   |
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repo
+### Prerequisites
 
-```bash
+Ensure the following are installed and configured:
+
+- **AWS CLI**: Configured with appropriate permissions to manage AWS resources.
+- **Node.js**: Version 16 or higher.
+- **jq**: Required for environment variable generation.
+
+### Step 1: Set Up the Backend
+
+**Important**: The backend must be set up first. Follow the instructions in the [e-banking-backend repository](https://github.com/Nahiyan-16/e-banking-backend).
+
+### Step 2: Clone the Repository
+
+```sh
 git clone https://github.com/YOUR_USERNAME/e-banking-app.git
 cd e-banking-app
 ```
 
-### 2. Install Dependencies
+### Step 3: Install Dependencies
 
-```bash
+```sh
 npm install
 ```
 
-### 3. Setup Environment Variables
+### Step 4: Generate Environment Variables
 
-Create `.env.development`:
+1. Navigate to the `scripts` folder.
+2. Set your AWS region in the `env-generator.sh` file.
+3. Run the script to generate `.env.production` and `aws-exports.js` for AWS Cognito:
+
+```sh
+cd scripts
+chmod +x env-generator.sh
+./env-generator.sh
+```
+
+---
+
+## 🖥️ Option 1: Run Frontend Locally
+
+### 1. Set Up Local Environment Variables
+
+Create a `.env.development` file:
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:5000
-REACT_APP_REGION=us-east-1
-REACT_APP_USER_POOL_ID=your_user_pool_id
-REACT_APP_CLIENT_ID=your_client_id
+REACT_APP_API_URL=http://localhost:4000/user
 ```
 
-To ignore them from Git:
+Add to `.gitignore` to prevent committing sensitive data:
 
-```
+```gitignore
 # .gitignore
 .env*
 ```
 
-### 4. Run the Frontend
+### 2. Start the Frontend
 
-```bash
+```sh
 npm start
 ```
 
-### 5. Backend (Node.js + AWS)
+### 3. Run the Backend
 
-- `/server.mjs` is deployed to **AWS Lambda**
-- Reads/writes from `e-bank-user-data/users/[username].json` in S3
-- Handles API routes for:
-  - `GET /user/:username`
-  - `POST /user`
-  - etc.
+Follow the instructions in the [e-banking-backend repository](https://github.com/Nahiyan-16/e-banking-backend) to start the backend:
 
-You can run it locally for testing:
-
-```bash
+```sh
 node server.mjs
 ```
 
-Or deploy to Lambda using the AWS CLI or Console.
+### 4. Access the Application
+
+The application is now fully functional locally.
 
 ---
 
-## 💡 Architecture Diagram
+## ☁️ Option 2: Deploy Frontend to AWS S3
+
+### 1. Build the Frontend
+
+```sh
+npm run build
+```
+
+### 2. Ensure Backend is Running
+
+Verify that the backend is deployed and operational as per the [e-banking-backend repository](https://github.com/Nahiyan-16/e-banking-backend).
+
+### 3. Deploy to S3
+
+1. Navigate to the `scripts` folder.
+2. Run the deployment script:
+
+```sh
+cd scripts
+chmod +x deploy-frontend.sh
+./deploy-frontend.sh
+```
+
+### 4. Access the Hosted Application
+
+After deployment, the CLI will provide a URL to access the hosted website.
+
+---
+
+## Teardown the frontend
+
+```sh
+cd scripts
+chmod +x teardown-frontend.sh
+./teardown-frontend.sh
+```
+
+## 📊 Architecture Diagram
 
 ```
-[ React App ]
-     |
-     v
-[ AWS API Gateway ] ---> [ Lambda (Node.js) ] ---> [ S3 (user JSON) ]
-     |
-     v
+[ React App ] --> [ AWS API Gateway ] --> [ AWS Lambda (Node.js) ] --> [ AWS S3 (user JSON) ]
+        |
+        v
 [ AWS Cognito (Auth) ]
 ```
 
 ---
 
-## 📝 To-Do / Future Features
+## 🔮 To-Do / Future Features
 
-- Bank account verification UI
-- Real-time transaction syncing
-- Notifications/alerts
-- Admin dashboard
+- 🏦 Bank account verification UI
+- ⏰ Real-time transaction syncing
+- 🔔 Notifications and alerts
+- 👨‍💼 Admin dashboard for user management
 
 ---
 
-## 🧠 Author
+## 👨‍💻 Author
 
-**Nahiyan Ahmed**
+**Nahiyan Ahmed**  
+GitHub: [Nahiyan-16](https://github.com/Nahiyan-16)

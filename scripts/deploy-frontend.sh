@@ -1,11 +1,16 @@
 #!/bin/bash
 
-STACK_NAME="e-bank-temp-site"
+# Set AWS region
 REGION="us-east-1"
+
+# Be in the script's directory
+
+STACK_NAME="e-bank-temp-site"
 TEMPLATE_FILE="./s3-static-site.yml"
 BUILD_DIR="../build"
 
 # Check if build directory exists and if a index.html file exists, if not, create it
+# ALSO USE THE LATEST BUILD
 if [ ! -d "$BUILD_DIR" ]; then
     echo "Build directory $BUILD_DIR does not exist. Exiting."
     if [ ! -f "$BUILD_DIR/index.html" ]; then

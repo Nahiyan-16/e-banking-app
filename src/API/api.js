@@ -1,6 +1,7 @@
 import { fetchAuthSession } from "aws-amplify/auth";
 
 const API_URL = process.env.REACT_APP_API_URL;
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 /**
  * Save or update user data in S3
@@ -16,7 +17,7 @@ export async function saveUserData(mode, data) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -43,7 +44,7 @@ export async function fetchUserData(userId) {
       headers: {
         "Content-Type": "application/json",
         Authorization: idToken,
-        "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
+        "x-api-key": API_KEY,
       },
     });
 
