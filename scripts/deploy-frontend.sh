@@ -5,21 +5,42 @@ REGION="us-east-1"
 
 # Be in the script's directory
 
-STACK_NAME="e-bank-temp-site"
-TEMPLATE_FILE="./s3-static-site.yml"
+STACK_NAME="eBankFrontendStack"
+TEMPLATE_FILE="./cloudformation/s3-static-site.yml"
 BUILD_DIR="../build"
 
-# Check if build directory exists and if a index.html file exists, if not, create it
-# ALSO USE THE LATEST BUILD
-if [ ! -d "$BUILD_DIR" ]; then
-    echo "Build directory $BUILD_DIR does not exist. Exiting."
-    if [ ! -f "$BUILD_DIR/index.html" ]; then
-        echo "index.html not found in build directory. Exiting."
-        exit 1
-    fi
+# Prerequisites check
+if ! command -v aws &> /dev/null; then
+    echo "AWS CLI not found. Please install it and configure your credentials."
     exit 1
 fi
 
+# Check permissions
+./util-scripts/check-permissions.sh
+
+if ! command -v jq &> /dev/null; then
+    echo "jq not found. Please install it to parse JSON responses."
+    exit 1
+fi
+
+# Generate the environment variables file for the frontend
+echo "Generating environment variables for the frontend..."
+./util-scripts/env-generator.sh
+
+# Build the React app
+echo "Building the React app..."
+cd ../
+npm install
+npm run build
+cd scripts
+
+if [ $? -ne 0 ]; then
+    echo "React build failed. Exiting."
+    exit 1
+fi
+echo "React app built successfully."
+
+# Deploy the CloudFormation stack
 echo "Deploying CloudFormation stack..."
 aws cloudformation deploy \
     --template-file $TEMPLATE_FILE \

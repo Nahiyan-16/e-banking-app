@@ -3,7 +3,7 @@
 #Set the Region
 REGION="us-east-1"
 
-STACK_NAME="e-bank-temp-site"
+STACK_NAME="eBankFrontendStack"
 
 # Get the S3 bucket name before deleting
 BUCKET_NAME=$(aws cloudformation describe-stacks \
@@ -19,6 +19,7 @@ fi
 
 echo "Deleting all files from S3 bucket: $BUCKET_NAME"
 aws s3 rm s3://$BUCKET_NAME --recursive
+aws s3 rb s3://$BUCKET_NAME --force
 
 echo "Deleting CloudFormation stack: $STACK_NAME"
 aws cloudformation delete-stack --stack-name $STACK_NAME --region $REGION

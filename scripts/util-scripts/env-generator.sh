@@ -10,32 +10,32 @@ set -e
 
 # Load CloudFormation stack outputs
 echo "Fetching stack outputs..."
-API_STACK_NAME="eBankApiStack"
-COGNITO_STACK_NAME="eBankCognitoStack"
+BACKEND_STACK_NAME="eBankBackendStack"
 
 
-API_OUTPUTS=$(aws cloudformation describe-stacks \
-  --stack-name $API_STACK_NAME \
+OUTPUTS=$(aws cloudformation describe-stacks \
+  --stack-name $BACKEND_STACK_NAME \
   --region $REGION \
   --query "Stacks[0].Outputs" \
   --output json)
 
-COGNITO_OUTPUTS=$(aws cloudformation describe-stacks \
-  --stack-name $COGNITO_STACK_NAME \
-  --region $REGION \
-  --query "Stacks[0].Outputs" \
-  --output json)
+if [ -z "$OUTPUTS" ]; then
+  echo "Failed to retrieve stack outputs. Ensure the backend stack '$BACKEND_STACK_NAME' is deployed."
+  exit 1
+fi
 
-API_URL=$(echo $API_OUTPUTS | jq '.[0].OutputValue')
+API_URL=$(echo "$OUTPUTS" | jq -r '.[] | select(.OutputKey=="ApiEndpoint").OutputValue')
+API_KEY_ID=$(echo "$OUTPUTS" | jq -r '.[] | select(.OutputKey=="ApiKeyId").OutputValue')
+USER_POOL_CLIENT_ID=$(echo "$OUTPUTS" | jq -r '.[] | select(.OutputKey=="UserPoolClientId").OutputValue')
+USER_POOL_ID=$(echo "$OUTPUTS" | jq -r '.[] | select(.OutputKey=="UserPoolId").OutputValue')
+IDENTITY_POOL_ID=$(echo "$OUTPUTS" | jq -r '.[] | select(.OutputKey=="IdentityPoolId").OutputValue')
+
 API_URL="${API_URL}/users"
-API_KEY_ID=$(echo $API_OUTPUTS | jq '.[1].OutputValue')
-API_URL=$(echo $API_URL | tr -d '"')
-API_KEY_ID=$(echo $API_KEY_ID | tr -d '"')
-API_KEY=$(aws apigateway get-api-keys --include-values --region $REGION --query "items[?id=='$API_KEY_ID'].value" --output text)
-
-USER_POOL_CLIENT_ID=$(echo $COGNITO_OUTPUTS | jq '.[0].OutputValue' | tr -d '"')
-USER_POOL_ID=$(echo $COGNITO_OUTPUTS | jq '.[1].OutputValue' | tr -d '"')
-IDENTITY_POOL_ID=$(echo $COGNITO_OUTPUTS | jq '.[2].OutputValue' | tr -d '"')
+API_KEY=$(aws apigateway get-api-keys \
+  --include-values \
+  --region $REGION \
+  --query "items[?id=='$API_KEY_ID'].value" \
+  --output text)
 
 echo "API_URL: $API_URL"
 echo "API_KEY: $API_KEY"
@@ -43,9 +43,8 @@ echo "USER_POOL_ID: $USER_POOL_ID"
 echo "USER_POOL_CLIENT_ID: $USER_POOL_CLIENT_ID"
 echo "IDENTITY_POOL_ID: $IDENTITY_POOL_ID"
 
-
 # Generate .env.production
-cat <<EOF > ../.env.production
+cat <<EOF > ../../.env.production
 REACT_APP_API_URL=$API_URL
 REACT_APP_API_KEY=$API_KEY
 EOF
@@ -53,7 +52,7 @@ EOF
 echo ".env.production created."
 
 # Generate aws-exports.js in src/
-cat <<EOF > ../src/aws-exports.js
+cat <<EOF > ../../src/aws-exports.js
 const awsmobile = {
   "aws_project_region": "$REGION",
   "aws_cognito_identity_pool_id": "$IDENTITY_POOL_ID",

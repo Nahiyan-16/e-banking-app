@@ -51,21 +51,34 @@ cd e-banking-app
 npm install
 ```
 
-### Step 4: Generate Environment Variables
+---
+
+## ☁️ Option 1: Deploy Frontend to AWS S3
+
+### 1. Ensure Backend is Running
+
+Verify that the backend is deployed and operational as per the [e-banking-backend repository](https://github.com/Nahiyan-16/e-banking-backend).
+
+### 2. Deploy to S3 (Might take a while since it will build the frontend first)
 
 1. Navigate to the `scripts` folder.
-2. Set your AWS region in the `env-generator.sh` file.
-3. Run the script to generate `.env.production` and `aws-exports.js` for AWS Cognito:
+2. Run the deployment script:
 
 ```sh
 cd scripts
-chmod +x env-generator.sh
-./env-generator.sh
+chmod +x deploy-frontend.sh
+./deploy-frontend.sh
 ```
+
+3. It will also generate your environment variables
+
+### 3. Access the Hosted Application
+
+After deployment, the CLI will provide a URL to access the hosted website.
 
 ---
 
-## 🖥️ Option 1: Run Frontend Locally
+## 🖥️ Option 2: Run Frontend Locally
 
 ### 1. Set Up Local Environment Variables
 
@@ -82,13 +95,25 @@ Add to `.gitignore` to prevent committing sensitive data:
 .env*
 ```
 
-### 2. Start the Frontend
+### Step 2: Generate Environment Variables
+
+1. Navigate to the `scripts` folder.
+2. Set your AWS region in the `env-generator.sh` file.
+3. Run the script to generate `aws-exports.js` for AWS Cognito:
+
+```sh
+cd scripts/util-scripts
+chmod +x env-generator.sh
+./env-generator.sh
+```
+
+### 3. Start the Frontend
 
 ```sh
 npm start
 ```
 
-### 3. Run the Backend
+### 4. Run the Backend
 
 Follow the instructions in the [e-banking-backend repository](https://github.com/Nahiyan-16/e-banking-backend) to start the backend:
 
@@ -96,38 +121,9 @@ Follow the instructions in the [e-banking-backend repository](https://github.com
 node server.mjs
 ```
 
-### 4. Access the Application
+### 5. Access the Application
 
 The application is now fully functional locally.
-
----
-
-## ☁️ Option 2: Deploy Frontend to AWS S3
-
-### 1. Build the Frontend
-
-```sh
-npm run build
-```
-
-### 2. Ensure Backend is Running
-
-Verify that the backend is deployed and operational as per the [e-banking-backend repository](https://github.com/Nahiyan-16/e-banking-backend).
-
-### 3. Deploy to S3
-
-1. Navigate to the `scripts` folder.
-2. Run the deployment script:
-
-```sh
-cd scripts
-chmod +x deploy-frontend.sh
-./deploy-frontend.sh
-```
-
-### 4. Access the Hosted Application
-
-After deployment, the CLI will provide a URL to access the hosted website.
 
 ---
 
