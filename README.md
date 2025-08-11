@@ -62,7 +62,7 @@ Verify that the backend is deployed and operational as per the [e-banking-backen
 ### 2. Deploy to S3 (Might take a while since it will build the frontend first)
 
 1. Navigate to the `scripts` folder.
-2. Run the deployment script:
+2. Run the deployment bash script:
 
 ```sh
 cd scripts
